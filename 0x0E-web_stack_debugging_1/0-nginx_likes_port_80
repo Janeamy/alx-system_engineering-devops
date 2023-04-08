@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# This script configures Nginx to listen on port 80
+
+if ! which nginx > /dev/null; then
+  sudo apt-get update
+  sudo apt-get install nginx -y
+fi
+
+if ! sudo systemctl status nginx > /dev/null; then
+  sudo systemctl start nginx
+fi
+
+if ! sudo nginx -t > /dev/null 2>&1; then
+  echo "Error in Nginx configuration file"
+  exit 1
+fi
+
+if sudo netstat -tlnp | grep ":80 .*LISTEN" > /dev/null; then
+  echo "Port 80 is already in use"
+  exit 1
+fi
+
+sudo ufw allow 80/tcp
+sudo ufw reload
+sudo systemctl restart nginx
+
