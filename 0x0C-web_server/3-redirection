@@ -1,11 +1,19 @@
-#!/usr/bin/env bash
-# Script that configures a new Ubuntu machine for redirection.
+#!/bin/bash
 
+# Update package index
 sudo apt-get update
+
+# Install Nginx
 sudo apt-get install -y nginx
 
+# Configure Nginx to listen on port 80
+sudo sed -i 's/listen\s*80;/listen 80 default_server;/g' /etc/nginx/sites-available/default
+
+# Create a custom index file with "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.jenny.com permanent;"
+
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.healthplus.com permanent;"
 sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
+# Restart Nginx service
 sudo service nginx restart
