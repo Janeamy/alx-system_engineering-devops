@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Script installs nginx server.
 
 # Update package index
 sudo apt-get update
