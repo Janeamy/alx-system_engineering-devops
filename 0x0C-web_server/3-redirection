@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Script redirects to another page.
 
 # Update package index
 sudo apt-get update
